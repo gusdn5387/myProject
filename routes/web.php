@@ -28,5 +28,14 @@ Route::get('/', function () {
     //     'greeting' => 'Hi~',
     //     'name'     => 'OAO'
     // ]);
-    return $view;
+    return $view; 
+});
+
+Route::get('/2', function() {
+    $items = [
+        'Apple',
+        'Banana'
+    ];
+
+    return view('index2', compact('items'));
 });
