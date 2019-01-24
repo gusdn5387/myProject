@@ -47,3 +47,12 @@ Route::get('/master', function() {
 Route::get('/3', 'IndexController@index');
 
 Route::resource('posts', 'PostsController');
+// Route::get('posts', [
+//     'as'   => 'posts.index',
+//     'uses' => 'PostsController@index'
+//     function() {
+//         return view('posts.index');
+//     }
+// ]);
+
+Route::resource('posts.comments', 'PostsCommentController');
