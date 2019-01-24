@@ -43,3 +43,7 @@ Route::get('/2', function() {
 Route::get('/master', function() {
     return view('master');
 });
+
+Route::get('/3', 'IndexController@index');
+
+Route::resource('posts', 'PostsController');
