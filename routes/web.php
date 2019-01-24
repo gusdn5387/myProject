@@ -39,3 +39,7 @@ Route::get('/2', function() {
 
     return view('index2', compact('items'));
 });
+
+Route::get('/master', function() {
+    return view('master');
+});
