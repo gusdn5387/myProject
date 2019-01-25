@@ -54,19 +54,44 @@ Route::get('posts', function() {
 
 Route::resource('posts.comments', 'PostsCommentController');
 
-Route::get('home', [
-    'middleware' => 'auth',
-    function() {
-        return 'welcome back, '.Auth::user()->name;
+// Route::get('home', [
+//     'middleware' => 'auth',
+//     function() {
+//         return 'welcome back, '.Auth::user()->name;
+//     }
+// ]);
+
+// Route::get('auth/login', 'Auth\LoginController@showLoginForm');
+// Route::post('auth/login', 'Auth\LoginController@login');
+// Route::get('auth/logout', 'Auth\LoginController@logout');
+
+// Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm');
+// Route::post('auth/register', 'Auth\RegisterController@register');
+
+Route::get('auth', function () {
+    $credentials = [
+        'email'    => 'john@example.com',
+        'password' => 'password'
+    ];
+
+    if (! Auth::attempt($credentials)) {
+        return 'Incorrect username and password combination';
     }
-]);
 
-Route::get('auth/login', 'Auth\LoginController@showLoginForm');
-Route::post('auth/login', 'Auth\LoginController@login');
-Route::get('auth/logout', 'Auth\LoginController@logout');
+    Event::fire('user.login', [Auth::user()]);
 
-Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm');
-Route::post('auth/register', 'Auth\RegisterController@register');
+    var_dump('Event fired and continue to next line...');
+
+    return;
+});
+
+Event::listen('user.login', function($user) {
+    // var_dump('"user.log" event catched and passed data is:');
+    // var_dump($user->toArray());
+    $user->last_login = (new DateTime)->format('Y-m-d H:i:s');
+
+    return $user->save();
+});
 
 Route::get('mail', function() {
     $to = 'ssejung0828@gmail.com';
