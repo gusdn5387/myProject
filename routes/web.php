@@ -12,23 +12,11 @@
 */
 
 Route::get('/', function () {
-    $view = view('index');
-    $view->greeting = "Hey~";
-    $view->name = 'LOL';
-    // $greeting = 'Hello';
-
-    // return view('index')->with('greeting', $greeting);
-
-    // return view('index')->with([
-    //     'greeting' => 'Good Morning^^/',
-    //     'name' => 'BBB'
-    // ]);
-
-    // return view('index', [
-    //     'greeting' => 'Hi~',
-    //     'name'     => 'OAO'
-    // ]);
-    return $view; 
+    // $view = view('index');
+    // $view->greeting = "Hey~";
+    // $view->name = 'LOL';
+    // return $view; 
+    return App\Post::findOrFail(100);
 });
 
 Route::get('/2', function() {
