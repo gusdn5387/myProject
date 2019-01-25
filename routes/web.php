@@ -67,3 +67,17 @@ Route::get('auth/logout', 'Auth\LoginController@logout');
 
 Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('auth/register', 'Auth\RegisterController@register');
+
+Route::get('mail', function() {
+    $to = 'ssejung0828@gmail.com';
+    $subject = 'Studying sending email in Laravel';
+    $data = [
+        'title' => 'Hi there',
+        'body'  => 'This is the body of an email message',
+        'user'  => App\User::find(1)
+    ];
+    
+    return Mail::send('emails.welcome', $data, function($message) use($to, $subject) {
+        $message->to($to)->subject($subject);
+    });
+});
