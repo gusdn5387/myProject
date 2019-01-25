@@ -46,21 +46,9 @@ Route::get('/master', function() {
 
 Route::get('/3', 'IndexController@index');
 
-// Route::resource('posts', 'PostsController');
-// Route::get('posts', [
-//     'as'   => 'posts.index',
-//     'uses' => 'PostsController@index'
-//     function() {
-//         return view('posts.index');
-//     }
-// ]);
 Route::get('posts', function() {
-    // $posts = App\Post::with('user')->get();
-    $posts = App\Post::get();
-    $posts->load('user');
-    DB::listen(function ($event) {
-        var_dump($event->sql);
-    });
+    $posts = App\Post::with('user')->paginate(10);
+
     return view('posts.index', compact('posts'));
 });
 
