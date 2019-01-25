@@ -46,7 +46,7 @@ Route::get('/master', function() {
 
 Route::get('/3', 'IndexController@index');
 
-Route::resource('posts', 'PostsController');
+// Route::resource('posts', 'PostsController');
 // Route::get('posts', [
 //     'as'   => 'posts.index',
 //     'uses' => 'PostsController@index'
@@ -54,6 +54,15 @@ Route::resource('posts', 'PostsController');
 //         return view('posts.index');
 //     }
 // ]);
+Route::get('posts', function() {
+    // $posts = App\Post::with('user')->get();
+    $posts = App\Post::get();
+    $posts->load('user');
+    DB::listen(function ($event) {
+        var_dump($event->sql);
+    });
+    return view('posts.index', compact('posts'));
+});
 
 Route::resource('posts.comments', 'PostsCommentController');
 
