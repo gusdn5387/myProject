@@ -57,29 +57,16 @@ Route::resource('posts', 'PostsController');
 
 Route::resource('posts.comments', 'PostsCommentController');
 
-Route::get('auth', function() {
-    $credentials = [
-        'email' => 'john@example.com',
-        'password' => 'password'
-    ];
-
-    if(! Auth::attempt($credentials)) {
-        return 'Incorrect username and password combination';
+Route::get('home', [
+    'middleware' => 'auth',
+    function() {
+        return 'welcome back, '.Auth::user()->name;
     }
+]);
 
-    return redirect('protected');
-});
+Route::get('auth/login', 'Auth\LoginController@showLoginForm');
+Route::post('auth/login', 'Auth\LoginController@login');
+Route::get('auth/logout', 'Auth\LoginController@logout');
 
-Route::get('auth/logout', function() {
-    Auth::logout();
-
-    return 'See you again~';
-});
-
-Route::get('protected', function() {
-    if(! Auth::check()) {
-        return 'Illegal access !!! Get out of here~';
-    }
-
-    return 'Welcome back, '.Auth::user()->name;
-});
+Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('auth/register', 'Auth\RegisterController@register');
